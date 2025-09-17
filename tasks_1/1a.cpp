@@ -4,11 +4,11 @@
 int main() {
   int n;
   std::cin >> n;
-  long long f1 = 0, f2 = 1;
+  long long fib_prev = 0, fib_cur = 1;
   for (int i = 2; i <= n; i++) {
-    long long tmp = f2;
-    f2 = f1 + f2;
-    f1 = tmp;
+    long long tmp = fib_cur;
+    fib_cur = fib_prev + fib_cur;
+    fib_prev = tmp;
   }
-  std::cout << f2 << "\n";
+  std::cout << fib_cur << "\n";
 }
