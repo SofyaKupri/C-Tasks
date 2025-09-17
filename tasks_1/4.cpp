@@ -7,8 +7,7 @@ int main() {
         while (cur > 1) {
             if (cur & 1) {
                 cur = cur * 3 + 1;
-            }
-            else {
+            } else {
                 cur /= 2;
             }
             ++cur_len;
