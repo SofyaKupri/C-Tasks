@@ -3,13 +3,13 @@
 #include <iomanip>
 
 int main() {
-    double a, b, c, d;
+    double a, b, c;
     std::cin >> a >> b >> c;
     if (a == 0) {
         std::cout << "Incorrect equation\n";
         return 0;
     }
-    d = b * b - 4 * a * c;
+    double d = b * b - 4 * a * c;
     if (d < 0) {
         std::cout << "No solutions\n";
     }
