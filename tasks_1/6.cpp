@@ -26,9 +26,14 @@ int main() {
             }
             if (cur_ans > ans) {
                 ans = cur_ans;
+                delete[] best;
                 best = s1;
+            } else {
+                delete[] s1;
             }
+            delete[] s2;
         }
     }
     std::cout << best << "\n";
+    delete[] best;
 }
