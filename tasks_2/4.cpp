@@ -4,10 +4,10 @@
 
 std::string GetRomanEmpire(int n) {
     std::string res = "";
-    std::vector<int> val = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
-    std::vector<std::string> symbol = {"M",  "CM", "D",  "CD", "C",  "XC", "L",
+    int val[13] = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
+    std::string symbol[13] = {"M",  "CM", "D",  "CD", "C",  "XC", "L",
                                        "XL", "X",  "IX", "V",  "IV", "I"};
-    for (size_t i = 0; i < val.size(); i++) {
+    for (size_t i = 0; i < 13; i++) {
         while (n >= val[i]) {
             res += symbol[i];
             n -= val[i];
