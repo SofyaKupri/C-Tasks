@@ -46,7 +46,7 @@ public:
     }
     r = t[0];
   };
-  double Area() const { return 2 * M_PI * r * r; }
+  double Area() const { return M_PI * r * r; }
   double Perimeter() const { return 2 * M_PI * r; }
 };
 
@@ -55,7 +55,7 @@ private:
   double a, b;
 
 public:
-  Rectangle(const vector<double> t) {
+  Rectangle(const vector<double>& t) {
     if (t.size() != 2) {
       throw std::exception();
     }
