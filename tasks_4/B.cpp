@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include <string>
 #include <vector>
+#include <array>
 
 class BCD {
 public:
@@ -61,10 +62,22 @@ public:
       vint_[sint.size() - k] = sint[k - 1] - '0';
     }
     vfrac_.resize(sfrac.size());
-    for (size_t k = sfrac.size(); k > 0; k--) {
-      vfrac_[k - 1] = sfrac[k - 1] - '0';
+    for (size_t k = 0; k < sfrac.size(); k++) {
+      vfrac_[k] = sfrac[k] - '0';
     }
     normalize();
+  }
+  explicit BCD(const std::vector<int>& digits, int int_size, int frac_size) {
+    for (int i = 0; i < n_; i++) {
+      vint_[i] = 0;
+    }
+    for (int i = int_size - 1; i >= 0; i--) {
+      vint_[int_size - i - 1] = digits[i];
+    }
+    vfrac_.resize(frac_size);
+    for (int i = int_size; i < (int)digits.size(); i++) {
+      vfrac_[i] = digits[i];
+    }
   }
   std::string getString() const {
     if (isZero()) {
@@ -116,7 +129,7 @@ public:
     }
     return res;
   }
-  std::vector<uint8_t> getVFrac() const { return vfrac_; }
+  const std::vector<uint8_t>& getVFrac() const { return vfrac_; }
   bool isZero() const {
     for (int i = 0; i < n_; i++) {
       if (vint_[i] != 0) {
@@ -127,15 +140,9 @@ public:
   }
 
   BCD(BCD &&other) {
-    sign_ = other.sign_;
-    for (int i = 0; i < n_; i++) {
-      vint_[i] = other.vint_[i];
-    }
-    vfrac_.resize(0);
-    vfrac_.resize(other.vfrac_.size());
-    for (size_t i = 0; i < other.vfrac_.size(); i++) {
-      vfrac_[i] = other.vfrac_[i];
-    }
+    std::swap(sign_, other. sign_);
+    std::swap(vint_, other.vint_);
+    std::swap(vfrac_, other. vfrac_);
     normalize();
   }
   BCD &operator=(BCD &&other) {
@@ -230,19 +237,18 @@ public:
       res.vint_[i] = prod[int_size - i - 1];
     }
     res.normalize();
-    (*this) = res;
+    (*this) = std::move(res);
     return *this;
   }
   BCD &operator*=(int multiplier) {
     BCD tmp(multiplier);
-    (*this) *= tmp;
     return (*this);
   }
 
 private:
   int n_ = 10;
-  int sign_ = 1;
-  uint8_t vint_[10];
+  signed char sign_ = 1;
+  std::array<uint8_t, 10> vint_;
   std::vector<uint8_t> vfrac_;
 
   void normalize() {
@@ -387,7 +393,7 @@ int floor(const BCD &bcd) {
   if (Int >= 0) {
     return Int;
   } else {
-    if ((BCD(Int) - bcd) > BCD(0)) {
+    if (!bcd.getVFrac().empty()) {
       return Int - 1;
     } else {
       return Int;
@@ -396,32 +402,14 @@ int floor(const BCD &bcd) {
 }
 
 int round(const BCD &bcd) {
-  int Int = bcd.getInteger();
-  if (Int >= 0) {
-    if ((BCD(Int + 1) - bcd) > (bcd - BCD(Int))) {
-      return Int;
-    } else {
-      return Int + 1;
-    }
-  } else {
-    if ((bcd - BCD(Int - 1)) > (BCD(Int) - bcd)) {
-      return Int;
-    } else {
-      return Int - 1;
-    }
-  }
+  return floor(bcd + 0.5);
 }
 
 int ceil(const BCD &bcd) {
-  int Int = bcd.getInteger();
-  if (Int >= 0) {
-    if ((bcd - BCD(Int)) > BCD(0)) {
-      return Int + 1;
-    } else {
-      return Int;
-    }
+  if (!bcd.getVFrac().empty()) {
+    return floor(bcd + 1);
   } else {
-    return Int;
+    return floor(bcd);
   }
 }
 
@@ -485,22 +473,7 @@ BCD divideByInt(const BCD &bcd, int n, size_t accuracy) {
   BCD res;
   int frac_size = bcd.getVFrac().size() + accuracy;
   int int_size = digits.size() - frac_size;
-  std::string num = "";
-  if (int_size <= 0) {
-    num += "0.";
-    for (auto d : digits) {
-      num += ('0' + d);
-    }
-  } else {
-    for (int i = 0; i < int_size; i++) {
-      num += ('0' + digits[i]);
-    }
-    num += '.';
-    for (int i = int_size; i < (int)digits.size(); i++) {
-      num += ('0' + digits[i]);
-    }
-  }
-  res = BCD(num);
+  res = BCD(digits, std::max(0, int_size), frac_size);
   return res;
 }
 
