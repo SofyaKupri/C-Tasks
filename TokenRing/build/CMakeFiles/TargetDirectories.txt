@@ -1,0 +1,3 @@
+/home/sofya/Study/C-Tasks/TokenRing/build/CMakeFiles/TokenRing.dir
+/home/sofya/Study/C-Tasks/TokenRing/build/CMakeFiles/edit_cache.dir
+/home/sofya/Study/C-Tasks/TokenRing/build/CMakeFiles/rebuild_cache.dir
