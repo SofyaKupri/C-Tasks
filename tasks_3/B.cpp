@@ -1,27 +1,19 @@
 #include <iostream>
 #include <string>
+#include <numeric>
 
 class Rational {
 private:
     int n_;
     int d_;
-    int GCD(int a, int b) {
-        int tmp;
-        while (a) {
-            tmp = a;
-            a = b % a;
-            b = tmp;
-        }
-        return b;
-    }
     void ToRight() {
         if (d_ < 0) {
             n_ = -n_;
             d_ = -d_;
         }
-        int gcd = GCD(abs(n_), d_);
-        n_ /= gcd;
-        d_ /= gcd;
+        int g = std::gcd(abs(n_), d_);
+        n_ /= g;
+        d_ /= g;
     }
 public:
 // constructors
@@ -70,16 +62,18 @@ public:
         return *this;
     }
     Rational operator++(int) {
+        int n_old = n_;
         n_ = n_ + d_;
-        return Rational(n_ - d_, d_);
+        return Rational(n_old, d_);
     }
     Rational operator--() {
         n_ = n_ - d_;
         return *this;
     }
     Rational operator--(int) {
+        int n_old = n_;
         n_ = n_ - d_;
-        return Rational(n_ + d_, d_);
+        return Rational(n_old, d_);
     }
 
 // getters
