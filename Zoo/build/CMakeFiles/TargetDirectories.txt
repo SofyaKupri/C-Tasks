@@ -1,0 +1,3 @@
+/home/sofya/Study/C-Tasks/Zoo/build/CMakeFiles/Zoo.dir
+/home/sofya/Study/C-Tasks/Zoo/build/CMakeFiles/edit_cache.dir
+/home/sofya/Study/C-Tasks/Zoo/build/CMakeFiles/rebuild_cache.dir

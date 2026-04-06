@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/TokenRing.dir/main.cpp.o CMakeFiles/TokenRing.dir/impl/base_agent.cpp.o CMakeFiles/TokenRing.dir/impl/data.cpp.o CMakeFiles/TokenRing.dir/impl/echo_agent.cpp.o CMakeFiles/TokenRing.dir/impl/emulator.cpp.o CMakeFiles/TokenRing.dir/impl/main_agent.cpp.o CMakeFiles/TokenRing.dir/impl/simple_agent.cpp.o -o TokenRing 
